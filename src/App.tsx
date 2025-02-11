@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppHeader from "./components/AppHeader";
@@ -9,8 +9,16 @@ import NotPages from "./components/Pages/NotPages/NotPages";
 import Register from "./components/Pages/Auth/Register/Register";
 import TestLoginForm from "./components/Pages/Auth/TestLoginForm";
 import ProtectedRoute from "./utils/ProtectedRoute/ProtectedRoute";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./store";
+import { loadUserFromStorage } from "./store/slices/authSlice";
 
+//https://code.s3.yandex.net/react/checklists-pdf/tz/react_tz5.pdf
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
   return (
     <Router>
       <div className="App">

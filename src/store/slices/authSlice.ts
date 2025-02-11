@@ -70,6 +70,21 @@ export const checkAuth = createAsyncThunk("user/checkAuth", async () => {
   return { isAuthenticated: false };
 });
 
+// 🔹 Загружаем пользователя из localStorage при запуске
+export const loadUserFromStorage = createAsyncThunk(
+  "auth/loadUser",
+  async () => {
+    const user = localStorage.getItem("user");
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (user && accessToken) {
+      return { user: JSON.parse(user), accessToken, refreshToken };
+    }
+    return { user: null, accessToken: null, refreshToken: null };
+  }
+);
+
 const authSlice = createSlice({
   name: "auth", //Имя
   initialState,
@@ -94,6 +109,12 @@ const authSlice = createSlice({
         state.user = null;
         state.accessToken = null;
         state.refreshToken = null;
+      })
+      //Автологин
+      .addCase(loadUserFromStorage.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
       });
   },
 });
