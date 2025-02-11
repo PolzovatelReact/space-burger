@@ -1,16 +1,10 @@
-import React from "react";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-import { Outlet, Navigate } from "react-router-dom";
-
-interface PrivateRoutesProps {
-  isAuthenticated: boolean;
-  redirectTo?: string;
-}
-
-const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
-  isAuthenticated,
-  redirectTo = "/login",
-}) => {
-  return isAuthenticated ? <Outlet /> : <Navigate to={redirectTo} />;
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { accessToken } = useSelector((state: RootState) => state.auth);
+  return accessToken ? children : <Navigate to="/login" />;
 };
-export default PrivateRoutes;
+
+export default ProtectedRoute;

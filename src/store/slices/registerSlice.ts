@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import checkResponse from "../../utils/checkResponse/checkResponse"; // Обработка ответа
-import { BASE_URL } from "../../utils/constants/constants"; // API
+import checkResponse from "../../utils/checkResponse/checkResponse";
+import { BASE_URL } from "../../utils/constants/constants";
 
 interface UserState {
   user: {
@@ -12,6 +12,7 @@ interface UserState {
   hasError: boolean;
   error: string | null;
 }
+
 const initialState: UserState = {
   user: null,
   email: null,
@@ -19,6 +20,8 @@ const initialState: UserState = {
   hasError: false,
   error: null,
 };
+
+// **Регистрация пользователя**
 export const registerUser = createAsyncThunk(
   "user/register",
   async (
@@ -37,10 +40,22 @@ export const registerUser = createAsyncThunk(
         },
         body: JSON.stringify({ email, password, name }),
       });
-      const data = await checkResponse(res); // Ответ с сервера
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "Ошибка регистрации");
+      }
+
+      // Сохраняем токены в localStorage
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Ошибка сети"
+      );
     }
   }
 );
@@ -68,5 +83,5 @@ const registerSlice = createSlice({
       });
   },
 });
-//export const { } = registerSlice.actions;
+
 export default registerSlice.reducer;
