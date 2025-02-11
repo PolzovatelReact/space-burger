@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import ingredientsReducer from "./slices/ingredientsSlice";
 import orderReducer from "./slices/orderSlice";
 import registerReducer from "./slices/registerSlice";
-import loginReducer from "./slices/loginSlice";
+//import loginReducer from "./slices/loginSlice";
 import authReducer from "./slices/authSlice";
 
 const store = configureStore({
@@ -10,7 +10,7 @@ const store = configureStore({
     ingredients: ingredientsReducer,
     order: orderReducer,
     register: registerReducer,
-    userLogin: loginReducer,
+    //  userLogin: loginReducer,
     auth: authReducer,
   },
 });

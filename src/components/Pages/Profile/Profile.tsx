@@ -11,7 +11,7 @@ const Profile: React.FC = () => {
 
   const handleLogout = async () => {
     await dispatch(logout());
-    navigate("/login");
+    navigate("/login"); // Удалить авторизацию
   };
 
   console.log("Страница пользователя");
