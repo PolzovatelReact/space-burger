@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../store";
 import { logout } from "../../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import Calculator from "../TestScript/Calculator";
+import FetchData from "../TestScript/FetchData";
 
 const Profile: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -13,17 +15,17 @@ const Profile: React.FC = () => {
     await dispatch(logout());
     navigate("/login"); // Удалить авторизацию
   };
-
-  console.log("Страница пользователя");
   return (
     <>
       <div>
         <h1>Страница профиля</h1>
-        {user ? (
+        {user ? ( // ? оператор который проверяет переменную user
           <>
             <p>Email: {user.email}</p>
             <p>Имя: {user.name}</p>
             <button onClick={handleLogout}>Выйти</button>
+            <Calculator />
+            <FetchData />
           </>
         ) : (
           <p>Нет данных о пользователе</p>
