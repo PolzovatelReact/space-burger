@@ -5,6 +5,8 @@ import { logout } from "../../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import Calculator from "../TestScript/Calculator";
 import FetchData from "../TestScript/FetchData";
+import Fragments from "../TestScript/Fragment";
+import Question from "../TestScript/Question";
 
 const Profile: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -26,6 +28,8 @@ const Profile: React.FC = () => {
             <button onClick={handleLogout}>Выйти</button>
             <Calculator />
             <FetchData />
+            <Fragments />
+            <Question />
           </>
         ) : (
           <p>Нет данных о пользователе</p>
